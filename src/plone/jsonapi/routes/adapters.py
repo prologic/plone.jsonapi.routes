@@ -138,7 +138,10 @@ def get_file_dict(field):
     return {
         "data": field.data.encode("base64"),
         "size": len(field.data),
-        "content_type": field.content_type
+        "content_type": getattr(
+            field, "content_type", getattr(
+                field, "contentType")
+            )
     }
 
 
