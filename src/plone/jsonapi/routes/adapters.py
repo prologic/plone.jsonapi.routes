@@ -186,6 +186,11 @@ def get_wf_info(obj):
     # get the status info of the current state (dictionary)
     status = wf_tool.getStatusOf(workflow.getId(), obj)
 
+    # invalid worfkflows status? retry with the old workflow state
+    if status is None:
+        workflow = wf_tool.getWorkflowById(obj.workflow_history.keys()[0])
+        status = wf_tool.getStatusOf(workflow.getId(), obj)
+
     # get the current review_status
     current_state_id = status.get("review_state", None)
 
